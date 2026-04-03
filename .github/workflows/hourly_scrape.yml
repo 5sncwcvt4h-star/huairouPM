@@ -3,8 +3,8 @@
 # 配置触发条件
 on:
   schedule:
-    # 使用 cron 表达式，0 代表每小时的第 0 分钟执行一次 (注意：GitHub Actions 的 cron 基于 UTC 时间)
-    - cron: '0 * * * *'
+    # 使用 cron 表达式，避免整点的高峰排队，改为每小时的第 13 分钟执行
+    - cron: '13 * * * *'
   # 允许在 GitHub 网页上通过按钮手动触发
   workflow_dispatch:
 
