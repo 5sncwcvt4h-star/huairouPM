@@ -1,0 +1,45 @@
+﻿name: Hourly PM Data Scraper
+
+# 配置触发条件
+on:
+  schedule:
+    # 使用 cron 表达式，0 代表每小时的第 0 分钟执行一次 (注意：GitHub Actions 的 cron 基于 UTC 时间)
+    - cron: '0 * * * *'
+  # 允许在 GitHub 网页上通过按钮手动触发
+  workflow_dispatch:
+
+# 设置仓库内容的读写权限，以便将抓取的数据推送回代码库
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run scraper script
+        # 运行时将我们在 GitHub 中配置的密钥传入环境变量
+        env:
+          WAQI_TOKEN: ${{ secrets.WAQI_TOKEN }}
+        run: python pm_hourly.py
+
+      - name: Commit and push changes
+        # 检查是有有新文件或变更，然后推送到仓库
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git commit -m "Auto-update PM data: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" || echo "No changes to commit"
+          git push
