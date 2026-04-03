@@ -35,12 +35,8 @@ jobs:
           WAQI_TOKEN: ${{ secrets.WAQI_TOKEN }}
         run: python pm_hourly.py
 
-      - name: Commit and push changes
-        # 检查是有有新文件或变更，然后推送到仓库
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add data/
-          git commit -m "Auto-update PM data: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" || echo "No changes to commit"
-          git pull --rebase origin main
-          git push origin HEAD:main
+      - name: Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update PM data"
+          file_pattern: "data/*"
