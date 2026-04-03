@@ -17,7 +17,7 @@ def fetch_waqi_data():
     if not token:
         raise ValueError("未找到 WAQI_TOKEN 环境变量")
 
-    url = f"https://api.waqi.info/feed/@H13332/?token={token}"
+    url = f"https://api.waqi.info/feed/@466/?token={token}"
     
     # [修复4. 缺少网络重试机制] - 设置带有退避策略的重试
     session = requests.Session()
