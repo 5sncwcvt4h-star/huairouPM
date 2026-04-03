@@ -42,4 +42,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add data/
           git commit -m "Auto-update PM data: $(date -u +'%Y-%m-%dT%H:%M:%SZ')" || echo "No changes to commit"
+          git pull --rebase origin main
           git push
