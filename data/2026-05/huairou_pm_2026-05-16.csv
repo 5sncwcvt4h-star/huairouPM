@@ -1,0 +1,2 @@
+﻿record_time,publish_time,aqi,pm25,pm10,o3,no2,so2,co,temperature,humidity,wind
+2026-05-16 01:01:16,2026-05-16 00:00:00,151,151,62,45.1,2.8,1.1,4.6,21,77,0.2
